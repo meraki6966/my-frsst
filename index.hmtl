@@ -3,48 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Web Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Habitat ReStore Donations Metrics</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Light blue-gray background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Full viewport height */
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            background-color: #f0f0f0;
         }
         .container {
-            background-color: #ffffff; /* White background for the content box */
-            padding: 40px;
-            border-radius: 16px; /* More rounded corners */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer shadow */
-            text-align: center;
-            max-width: 600px; /* Max width for better readability */
-            width: 100%;
+            max-width: 900px;
         }
-        h1 {
-            color: #1e3a8a; /* Darker blue for heading */
-            margin-bottom: 20px;
-            font-size: 2.5rem; /* Larger font size */
-            font-weight: 700;
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-        p {
-            color: #4b5563; /* Gray for paragraph text */
-            font-size: 1.125rem; /* Slightly larger paragraph text */
-            line-height: 1.7;
+        input[type="number"] {
+            -moz-appearance: textfield;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Meraki!</h1>
-        <p>This is my very first website. I'm learning how to create and share content online. It's exciting!</p>
-        <p>Feel free to edit this text and make it your own.</p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container bg-white shadow-xl rounded-2xl p-8 md:p-12 space-y-8">
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-blue-700 mb-2">Habitat ReStore</h1>
+            <p class="text-xl text-gray-600">for Humanity®</p>
+            <h2 class="text-3xl font-bold text-gray-800 mt-6 mb-4">Weekly Donations Metrics</h2>
+            <p class="text-gray-700 text-lg">Estimating your donor interactions and setting goals.</p>
+        </header>
+
+        <!-- Section 1: Estimating Donor Interactions -->
+        <section class="bg-blue-50 p-6 rounded-xl shadow-inner border border-blue-200">
+            <h3 class="text-2xl font-semibold text-blue-800 mb-4">1. Estimate Your Donor Interactions</h3>
+            <p class="text-gray-700 mb-6">Calculate your total number of donor interactions in a year.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="dropOffDonors" class="block text-gray-700 text-sm font-medium mb-2">How many drop-off donors do you have during an average week?</label>
+                    <input type="number" id="dropOffDonors" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" placeholder="e.g., 50" value="0">
+                </div>
+                <div>
+                    <label for="pickupDonations" class="block text-gray-700 text-sm font-medium mb-2">How many donation pickups do you have in an average week?</label>
+                    <input type="number" id="pickupDonations" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" placeholder="e.g., 20" value="0">
+                </div>
+            </div>
+            <button onclick="calculateDonorInteractions()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">Calculate Annual Donor Interactions</button>
+            <p class="mt-4 text-center text-lg text-gray-800">Total Donor Interactions Annually: <span id="totalDonorInteractions" class="font-bold text-blue-700">0</span></p>
+            <p class="text-sm text-gray-600 mt-2">*Note: This calculation uses 50 weeks per year, accounting for holidays.</p>
+        </section>
+
+        <!-- Section 2: Establish Your Current Average Donation Value -->
+        <section class="bg-green-50 p-6 rounded-xl shadow-inner border border-green-200">
+            <h3 class="text-2xl font-semibold text-green-800 mb-4">2. Establish Your Current Average Donation Value</h3>
+            <p class="text-gray-700 mb-6">Determine the average value of each donation.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="currentGrossAnnualRevenue" class="block text-gray-700 text-sm font-medium mb-2">Current Donated Gross Annual Revenue ($)</label>
+                    <input type="number" id="currentGrossAnnualRevenue" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" placeholder="e.g., 100000" value="0">
+                </div>
+                <div>
+                    <label for="totalAnnualDonations" class="block text-gray-700 text-sm font-medium mb-2">Total # of Donations Annually</label>
+                    <input type="number" id="totalAnnualDonations" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" placeholder="e.g., 5000" value="0">
+                </div>
+            </div>
+            <button onclick="calculateAverageDonationValue()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">Calculate Average Donation Value</button>
+            <p class="mt-4 text-center text-lg text-gray-800">Average Donation Value: $<span id="averageDonationValue" class="font-bold text-green-700">0.00</span></p>
+        </section>
+
+        <!-- Section 3: Establish Your Goal & Determine Donations Needed -->
+        <section class="bg-purple-50 p-6 rounded-xl shadow-inner border border-purple-200">
+            <h3 class="text-2xl font-semibold text-purple-800 mb-4">3. Establish Your Goal & Determine Weekly Donations Needed</h3>
+            <p class="text-gray-700 mb-6">Set your sales per square foot target and calculate the weekly donations required to meet it.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="currentSalesPerSqFt" class="block text-gray-700 text-sm font-medium mb-2">Current Sales per Sq. Ft. (Donated only)</label>
+                    <input type="number" id="currentSalesPerSqFt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 shadow-sm" placeholder="e.g., 10" value="0">
+                </div>
+                <div>
+                    <label for="totalIncrease" class="block text-gray-700 text-sm font-medium mb-2">Total Increase ($ per Sq. Ft.)</label>
+                    <input type="number" id="totalIncrease" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 shadow-sm" placeholder="e.g., 2" value="0">
+                </div>
+                <div>
+                    <label for="totalReStoreSqFt" class="block text-gray-700 text-sm font-medium mb-2">Total ReStore Square Footage</label>
+                    <input type="number" id="totalReStoreSqFt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 shadow-sm" placeholder="e.g., 5000" value="0">
+                </div>
+                <div>
+                    <label for="targetAverageDonationValue" class="block text-gray-700 text-sm font-medium mb-2">Target Average Donation Value ($)</label>
+                    <input type="number" id="targetAverageDonationValue" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 shadow-sm" placeholder="e.g., 20" value="0">
+                </div>
+            </div>
+            <button onclick="calculateGoals()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">Calculate Goals & Weekly Donations Needed</button>
+
+            <div class="mt-6 text-center">
+                <p class="text-lg text-gray-800">Target Sales per Sq. Ft.: <span id="targetSalesPerSqFt" class="font-bold text-purple-700">0.00</span></p>
+                <p class="text-lg text-gray-800 mt-2">Target Donated Gross Annual Revenue: $<span id="targetDonatedGrossAnnualRevenue" class="font-bold text-purple-700">0.00</span></p>
+                <p class="text-lg text-gray-800 mt-2">Weekly Donations Needed: <span id="weeklyDonationsNeeded" class="font-bold text-purple-700">0.00</span></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-8">
+            <p>For more information, contact restore@habitat.org</p>
+            <p class="mt-2">© 2025 Habitat for Humanity International. All rights reserved.</p>
+        </footer>
     </div>
+
+    <script>
+        /**
+         * Calculates the total annual donor interactions based on weekly drop-off and pickup numbers.
+         */
+        function calculateDonorInteractions() {
+            const dropOffDonors = parseFloat(document.getElementById('dropOffDonors').value) || 0;
+            const pickupDonations = parseFloat(document.getElementById('pickupDonations').value) || 0;
+            const totalWeekly = dropOffDonors + pickupDonations;
+            // Using 50 weeks as per the document's instruction
+            const totalAnnualInteractions = totalWeekly * 50;
+            document.getElementById('totalDonorInteractions').textContent = totalAnnualInteractions.toLocaleString();
+        }
+
+        /**
+         * Calculates the average donation value based on current annual revenue and total donations.
+         */
+        function calculateAverageDonationValue() {
+            const currentGrossAnnualRevenue = parseFloat(document.getElementById('currentGrossAnnualRevenue').value) || 0;
+            const totalAnnualDonations = parseFloat(document.getElementById('totalAnnualDonations').value) || 0;
+
+            let averageDonationValue = 0;
+            if (totalAnnualDonations > 0) {
+                averageDonationValue = currentGrossAnnualRevenue / totalAnnualDonations;
+            }
+            document.getElementById('averageDonationValue').textContent = averageDonationValue.toFixed(2);
+        }
+
+        /**
+         * Calculates target sales per sq. ft., target donated gross annual revenue,
+         * and weekly donations needed to reach the goal.
+         */
+        function calculateGoals() {
+            const currentSalesPerSqFt = parseFloat(document.getElementById('currentSalesPerSqFt').value) || 0;
+            const totalIncrease = parseFloat(document.getElementById('totalIncrease').value) || 0;
+            const totalReStoreSqFt = parseFloat(document.getElementById('totalReStoreSqFt').value) || 0;
+            const targetAverageDonationValue = parseFloat(document.getElementById('targetAverageDonationValue').value) || 0;
+
+            // Calculate Target sales per sq. ft.
+            const targetSalesPerSqFt = currentSalesPerSqFt + totalIncrease;
+            document.getElementById('targetSalesPerSqFt').textContent = targetSalesPerSqFt.toFixed(2);
+
+            // Calculate Target donated gross annual revenue
+            const targetDonatedGrossAnnualRevenue = targetSalesPerSqFt * totalReStoreSqFt;
+            document.getElementById('targetDonatedGrossAnnualRevenue').textContent = targetDonatedGrossAnnualRevenue.toFixed(2);
+
+            // Calculate Weekly donations needed
+            let weeklyDonationsNeeded = 0;
+            if (targetAverageDonationValue > 0) {
+                weeklyDonationsNeeded = (targetDonatedGrossAnnualRevenue / targetAverageDonationValue) / 50;
+            }
+            document.getElementById('weeklyDonationsNeeded').textContent = weeklyDonationsNeeded.toFixed(2);
+        }
+
+        // Initialize calculations on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateDonorInteractions();
+            calculateAverageDonationValue();
+            calculateGoals();
+        });
+    </script>
 </body>
 </html>
